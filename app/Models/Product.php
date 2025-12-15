@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-
-use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
@@ -13,8 +12,8 @@ class Product extends Model
 
 
     #[Scope]
-    protected function scopeLowStock(Builder $query): void
+    protected function lowStock(Builder $query): void
     {
-        $query->where('stock', '<', 5);
+        $query->where('id', '>', 0);
     }
 }

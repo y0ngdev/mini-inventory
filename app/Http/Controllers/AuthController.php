@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -59,8 +58,8 @@ class AuthController extends Controller
             ]);
         }
 
-        // Revoke all previous tokens (optional)
-        // $user->tokens()->delete();
+
+         $user->tokens()->delete();
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
@@ -100,4 +99,5 @@ class AuthController extends Controller
             'data' => $request->user()
         ], 200);
     }
+
 }

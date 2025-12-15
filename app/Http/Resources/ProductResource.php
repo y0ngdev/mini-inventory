@@ -5,6 +5,13 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @property mixed $created_at
+ * @property mixed $stock
+ * @property mixed $price
+ * @property mixed $name
+ * @property mixed $id
+ */
 class ProductResource extends JsonResource
 {
     /**

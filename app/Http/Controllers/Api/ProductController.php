@@ -15,8 +15,9 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
+
         return ProductResource::collection($products)->additional([
-            'message' => 'Products fetched successfully',
+            'message' => $products->isEmpty() ? 'No products found' : 'Products retrieved',
             'status' => 'success',
         ]);
     }
@@ -26,7 +27,6 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'price' => 'required|numeric|min:1',
@@ -36,7 +36,7 @@ class ProductController extends Controller
 
         $product = Product::create($validated);
 
-        return (new ProductResource($product))->additional([
+        return new ProductResource($product)->additional([
             'message' => 'Product created successfully',
             'status' => 'success',
         ])->response()->setStatusCode(201);
@@ -47,9 +47,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-
-
-        return (new ProductResource($product))->additional([
+        return new ProductResource($product)->additional([
             'message' => 'Product fetched successfully',
             'status' => 'success',
         ]);
@@ -60,7 +58,6 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-
         $validated = $request->validate([
             'name' => 'required',
             'price' => 'required|numeric|min:1',
@@ -70,12 +67,10 @@ class ProductController extends Controller
         $product->update($validated);
 
 
-        return (new ProductResource($product))->additional([
+        return new ProductResource($product)->additional([
             'message' => 'Product updated successfully',
             'status' => 'success',
         ]);
-
-
     }
 
     /**
@@ -89,10 +84,9 @@ class ProductController extends Controller
             'data' => null,
             'message' => 'Product deleted successfully',
             'status' => 'success',
-        ]);
+        ], 204);
     }
 
-    // GET /api/products/low-stock
     public function lowStock()
     {
         // Use the query scope defined in the model
@@ -103,5 +97,4 @@ class ProductController extends Controller
             'status' => 'success',
         ]);
     }
-
 }
